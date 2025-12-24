@@ -33,7 +33,8 @@ public class General {
     static boolean estado = true;
     static String[] tabela = {"Um: ", "Dois: ", "Tres: ", "Quatro: ", "Cinco: ", "Seis: ",
     "Trinca: ", "Quadra: ", "Full House: ", "Straight: ", "Coringa: ", "General I: ", "General II: "};
-    static int[] scoreIndividual = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    static int[] scoreIndividual = new int[13];
+    static boolean[] jaPontuado = new boolean[13];
 
     static int[] rolarDados(boolean[] travar) {
         Random rand = new Random();
@@ -56,9 +57,7 @@ public class General {
             }
 
             calcularPontuação(dados);
-            jogos(); // Imprime tabela
             
-
             System.out.println(); // Pular a linha
 
             if (contadorDeJogadas < (NUM_JOGADAS - 1)) {
@@ -76,13 +75,18 @@ public class General {
     static void calcularPontuação(int[] dados) {
         for (int t = 1; t <= tabela.length; t++) {
             int ocorrências = 0;
-            for (int i = 0; i < NUM_DADOS && scoreIndividual[t - 1] != 0; i++) {
+            for (int i = 0; i < NUM_DADOS; i++) {
                 if (t == dados[i]) {
                     ocorrências++;
                 }
             }
-            scoreIndividual[t - 1] = ocorrências * t;
+            if (!jaPontuado[t - 1]){
+                scoreIndividual[t - 1] = ocorrências * t;
+            }
         }
+        jogos(); // Imprime tabela
+        System.out.print("Pontuar: ");
+        jaPontuado[teclado.nextInt() - 1] = true;
     }
 
     static void jogos() {
@@ -92,7 +96,11 @@ public class General {
 
         System.out.println("======Tabela======");
         for (int i = 0; i < tabela.length; i++) {
-            System.out.println(tabela[i] + scoreIndividual[i]);
+            if (jaPontuado[i]) {
+                System.out.println((i + 1) + " - " + tabela[i] + scoreIndividual[i] + " *");
+            } else {
+                System.out.println((i + 1) + " - " + tabela[i] + scoreIndividual[i]);
+            }
         }
         System.out.println("==================");
         System.out.println("Pontuação: " + score);
