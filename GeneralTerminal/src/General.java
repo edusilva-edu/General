@@ -29,9 +29,11 @@ public class General {
     // =========
     // Variáveis
     // =========
+    static int score = 0;
     static boolean estado = true;
     static String[] tabela = {"Um: ", "Dois: ", "Tres: ", "Quatro: ", "Cinco: ", "Seis: ",
     "Trinca: ", "Quadra: ", "Full House: ", "Straight: ", "Coringa: ", "General I: ", "General II: "};
+    static int[] scoreIndividual = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     static int[] rolarDados(boolean[] travar) {
         Random rand = new Random();
@@ -52,7 +54,10 @@ public class General {
                 }
                 System.out.print("[" + dados[i] + "]   "); 
             }
-            jogos();
+
+            calcularPontuação(dados);
+            jogos(); // Imprime tabela
+            
 
             System.out.println(); // Pular a linha
 
@@ -68,16 +73,29 @@ public class General {
         return dados;
     }
 
-    static void jogos()  {
+    static void calcularPontuação(int[] dados) {
+        for (int t = 1; t <= tabela.length; t++) {
+            int ocorrências = 0;
+            for (int i = 0; i < NUM_DADOS && scoreIndividual[t - 1] != 0; i++) {
+                if (t == dados[i]) {
+                    ocorrências++;
+                }
+            }
+            scoreIndividual[t - 1] = ocorrências * t;
+        }
+    }
+
+    static void jogos() {
 
         System.out.println(); // Pular a linha
         System.out.println(); // Pular a linha
 
         System.out.println("======Tabela======");
         for (int i = 0; i < tabela.length; i++) {
-            System.out.println(tabela[i]);
+            System.out.println(tabela[i] + scoreIndividual[i]);
         }
         System.out.println("==================");
+        System.out.println("Pontuação: " + score);
     }
 
     static boolean[] travarDados(String praTravar) {
