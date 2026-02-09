@@ -32,6 +32,7 @@ public class General {
     static boolean estado = true;
     static String[] tabela = {"Um: ", "Dois: ", "Tres: ", "Quatro: ", "Cinco: ", "Seis: ",
     "Trinca: ", "Quadra: ", "Full House: ", "Straight: ", "Coringa: ", "General I: ", "General II: "};
+    static int[] pontuacoes = new int[tabela.length];
 
     static int[] rolarDados(boolean[] travar) {
         Random rand = new Random();
@@ -48,7 +49,7 @@ public class General {
 
             for(int i = 0; i < NUM_DADOS; i++) {
                 if (!travar[i]) {
-                    dados[i] = rand.nextInt(1, 7);
+                    dados[i] = rand.nextInt(1,7);
                 }
                 System.out.print("[" + dados[i] + "]   "); 
             }
@@ -75,7 +76,7 @@ public class General {
 
         System.out.println("======Tabela======");
         for (int i = 0; i < tabela.length; i++) {
-            System.out.println(tabela[i]);
+            System.out.println(i + " - " + tabela[i] + "[" + pontuacoes[i] + "]");
         }
         System.out.println("==================");
     }
