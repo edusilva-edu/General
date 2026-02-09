@@ -29,10 +29,12 @@ public class General {
     // =========
     // Variáveis
     // =========
+    static int score = 0;
     static boolean estado = true;
     static String[] tabela = {"Um: ", "Dois: ", "Tres: ", "Quatro: ", "Cinco: ", "Seis: ",
     "Trinca: ", "Quadra: ", "Full House: ", "Straight: ", "Coringa: ", "General I: ", "General II: "};
-    static int[] pontuacoes = new int[tabela.length];
+    static int[] scoreIndividual = new int[13];
+    static boolean[] jaPontuado = new boolean[13];
 
     static int[] rolarDados(boolean[] travar) {
         Random rand = new Random();
@@ -53,8 +55,9 @@ public class General {
                 }
                 System.out.print("[" + dados[i] + "]   "); 
             }
-            jogos();
 
+            calcularPontuação(dados);
+            
             System.out.println(); // Pular a linha
 
             if (contadorDeJogadas < (NUM_JOGADAS - 1)) {
@@ -69,16 +72,38 @@ public class General {
         return dados;
     }
 
-    static void jogos()  {
+    static void calcularPontuação(int[] dados) {
+        for (int t = 1; t <= tabela.length; t++) {
+            int ocorrências = 0;
+            for (int i = 0; i < NUM_DADOS; i++) {
+                if (t == dados[i]) {
+                    ocorrências++;
+                }
+            }
+            if (!jaPontuado[t - 1]){
+                scoreIndividual[t - 1] = ocorrências * t;
+            }
+        }
+        jogos(); // Imprime tabela
+        System.out.print("Pontuar: ");
+        jaPontuado[teclado.nextInt() - 1] = true;
+    }
+
+    static void jogos() {
 
         System.out.println(); // Pular a linha
         System.out.println(); // Pular a linha
 
         System.out.println("======Tabela======");
         for (int i = 0; i < tabela.length; i++) {
-            System.out.println(i + " - " + tabela[i] + "[" + pontuacoes[i] + "]");
+            if (jaPontuado[i]) {
+                System.out.println((i + 1) + " - " + tabela[i] + scoreIndividual[i] + " *");
+            } else {
+                System.out.println((i + 1) + " - " + tabela[i] + scoreIndividual[i]);
+            }
         }
         System.out.println("==================");
+        System.out.println("Pontuação: " + score);
     }
 
     static boolean[] travarDados(String praTravar) {
